@@ -5,11 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h2>Lista de Alumnos</h2>
 
 <p>
     @Html.ActionLink("Agregar Alumno", "AgregarAlumno")
+    <div><a href="@Url.Action("generarPDF")" target="NewTab"> Generar PDF </a></div>
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -84,9 +87,6 @@
 
 
 @section Scripts{
-
-
-
 
     <script>
 
