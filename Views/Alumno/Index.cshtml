@@ -27,7 +27,7 @@
         <div class=" " style="display: flex; justify-content: end; margin: 5px">
             <form class="form-inline" action="@Url.Action("Index")" method="post">
                 <div class="input-group ">
-                    <input name="Busqueda" type="text" class="form-control" placeholder="Search" id="txtSearch" />
+                    <input name="Busqueda" type="text" class="form-control" placeholder="Busqueda" id="txtSearch" />
                     <div class="input-group-btn">
                         <button class="btn btn-primary" type="submit">
                             <span class="glyphicon glyphicon-search"></span>
@@ -111,9 +111,11 @@
 
                         @Html.ActionLink(" ", "DetallesAlumno", "Alumno", new { id = item.Id }, htmlAttributes: new { @class = "glyphicon glyphicon-th-list" })
 
-                        @Html.ActionLink("Eliminar", "EliminarAlumno", new { id = item.Id }, new { @class = "aElimina" })
+                        @*@Html.ActionLink("Eliminar", "EliminarAlumno", new { id = item.Id }, new { @class = "aElimina" })*@
+                        @Html.ActionLink(" ", "EliminarAlumno", "Alumno", new { id = item.Id }, htmlAttributes: new { @class = "glyphicon glyphicon-trash aElimina" })
 
 
+                        
                     </td>
                 </tr>
             }
