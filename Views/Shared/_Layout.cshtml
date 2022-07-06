@@ -17,13 +17,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nombre de la aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Planilla Alumnos", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Alumnos", "Index", "Alumno")</li>
                     <li>@Html.ActionLink("Salir", "CerrarSesion", "Home")</li>
                 </ul>
@@ -41,6 +38,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.dataTables.js"></script>
+    <link href="~/Content/jquery.dataTables.css" rel="stylesheet" />
     @RenderSection("scripts", required: false)
 </body>
 </html>

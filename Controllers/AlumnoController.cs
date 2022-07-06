@@ -15,8 +15,37 @@ namespace PlanillaAlumnos.Controllers
     public class AlumnoController : Controller
     {
         // GET: Alumno
-        public ActionResult Index()
+        public ActionResult Index(string Busqueda)
         {
+            if (Busqueda != null)
+            {
+                try
+                {
+                    using (AlumnosContext db = new AlumnosContext())
+                    {
+
+                        //return View(db.Alumno.Where(a => a.Nombre.StartsWith(nombreFiltro)).ToList()); || a.aApellido.StartsWith(nombreFiltro)).ToList();
+                        return View(db.Alumno.Where(a =>
+                        a.Nombre.StartsWith(Busqueda) ||
+                        a.Apellido.StartsWith(Busqueda) ||
+                        a.Sexo.StartsWith(Busqueda) ||
+                        a.Edad.ToString().StartsWith(Busqueda) ||
+                        a.Dni.ToString().StartsWith(Busqueda) ||
+                        a.FechaRegistro.ToString().StartsWith(Busqueda)).ToList()
+                        );
+
+
+
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
             try
             {
                 using (AlumnosContext db = new AlumnosContext())
@@ -76,6 +105,24 @@ namespace PlanillaAlumnos.Controllers
 
 
 
+        }
+
+        //public ActionResult Agregar2()
+        //{
+
+        //    return View();
+
+        //}
+
+        public ActionResult ListaCiudades()
+        {
+
+            using (var db = new AlumnosContext())
+            {
+
+                return PartialView(db.Ciudad.ToList());
+
+            }
         }
 
 
@@ -167,11 +214,25 @@ namespace PlanillaAlumnos.Controllers
 
         }
 
+        public static string NombreCiudad(int CodCiudad)
+        {
+            using (var db = new AlumnosContext())
+            {
 
+                return db.Ciudad.Find(CodCiudad).NombreCiudad; 
+
+            }
+
+
+        }
+
+
+
+  
         public FileResult generarPDF()
         {
-
-            Document doc = new Document();
+           
+            Document doc = new Document(PageSize.LETTER);
             byte[] buffer;
             MemoryStream ms = new MemoryStream();
             //using (MemoryStream ms = new MemoryStream())
@@ -180,41 +241,115 @@ namespace PlanillaAlumnos.Controllers
             PdfWriter.GetInstance(doc, ms);
             doc.Open();
 
-            Paragraph titulo = new Paragraph("Lista Alumnos");
+            //defino tipo de letra, tamaño y color
+            iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
+
+            Paragraph titulo = new Paragraph("Lista de Alumnos",_titulo);
             titulo.Alignment = Element.ALIGN_CENTER;
+
             doc.Add(titulo);
 
             Paragraph espacio = new Paragraph(" ");
             doc.Add(espacio);
 
             //Columnas (tabla)
-            PdfPTable tabla = new PdfPTable(2);
+            PdfPTable tabla = new PdfPTable(7);
+
             //Ancho columnas
-            float[] Valores = new float[2] { 30, 40 };
+            //float[] Valores = new float[6] { 90, 90, 80, 80, 80, 170 };
+            float[] medidaCeldas = { 4.00f, 4.00f, 4.00f, 4.00f, 4.00f, 4.00f, 4.50f };
             //asigno esos anchos a la tabla
-            tabla.SetWidths(Valores);
+            tabla.SetWidths(medidaCeldas);
+
             //creo la celda (le pongo contenido) color y alineado al centro
-            PdfPCell celda1 = new PdfPCell(new Phrase("Nombre Alumno"));
-            celda1.BackgroundColor = new BaseColor(130, 130, 130);
-            celda1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+            /*PdfPCell celda1 = new PdfPCell(new Paragraph("Nombre"));
+            celda1.VerticalAlignment = Element.ALIGN_MIDDLE;
+            celda1.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda1);*/
+
+            PdfPCell celda1 = new PdfPCell(new Phrase("Nombre"));
+            celda1.BackgroundColor = new BaseColor(243, 179, 92);
+            celda1.HorizontalAlignment = Element.ALIGN_CENTER;
             tabla.AddCell(celda1);
 
-            PdfPCell celda2 = new PdfPCell(new Phrase("Apellido Alumno"));
-            celda1.BackgroundColor = new BaseColor(130, 130, 130);
-            celda1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+            PdfPCell celda2 = new PdfPCell(new Phrase("Apellido"));
+            celda2.BackgroundColor = new BaseColor(243, 179, 92);
+            celda2.HorizontalAlignment = Element.ALIGN_CENTER;
             tabla.AddCell(celda2);
+
+            PdfPCell celda3 = new PdfPCell(new Phrase("Sexo"));
+            celda3.BackgroundColor = new BaseColor(243, 179, 92);
+            celda3.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda3);
+
+            PdfPCell celda4 = new PdfPCell(new Phrase("Edad"));
+            celda4.BackgroundColor = new BaseColor(243, 179, 92);
+            celda4.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda4);
+
+            PdfPCell celda5 = new PdfPCell(new Phrase("Dni"));
+            celda5.BackgroundColor = new BaseColor(243, 179, 92);
+            celda5.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda5);
+
+            PdfPCell celda6 = new PdfPCell(new Phrase("Ciudad"));
+            celda6.BackgroundColor = new BaseColor(243, 179, 92);
+            celda6.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda6);
+
+            PdfPCell celda7 = new PdfPCell(new Phrase("Fecha de Registro"));
+            celda7.BackgroundColor = new BaseColor(243, 179, 92);
+            celda7.HorizontalAlignment = Element.ALIGN_CENTER;
+            tabla.AddCell(celda7);
+
+
             List<Alumno> lista = new List<Alumno>();
             using (AlumnosContext db = new AlumnosContext())
             {
-                lista = db.Alumno.ToList();
+                lista = db.Alumno.ToList(); 
             }
 
             int nregistros = lista.Count;
             for (int i = 0; i < nregistros; i++)
             {
 
-                tabla.AddCell(lista[i].Nombre);
-                tabla.AddCell(lista[i].Apellido);
+        
+                PdfPCell clINombre = new PdfPCell(new Phrase(lista[i].Nombre,_standardFont));
+                clINombre.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clINombre.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clINombre);
+
+   
+                PdfPCell clIApellido = new PdfPCell(new Phrase(lista[i].Apellido,_standardFont));
+                clIApellido.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clIApellido.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clIApellido);
+
+                PdfPCell clISexo = new PdfPCell(new Phrase(lista[i].Sexo,_standardFont));
+                clISexo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clISexo.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clISexo);
+       
+                PdfPCell clIEdad = new PdfPCell(new Phrase(lista[i].Edad.ToString(),_standardFont));
+                clIEdad.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clIEdad.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clIEdad);
+           
+                PdfPCell clIDni = new PdfPCell(new Phrase(lista[i].Dni.ToString(),_standardFont));
+                clIDni.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clIDni.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clIDni);
+
+                PdfPCell clICiudad = new PdfPCell(new Phrase(lista[i].CodCiudad.ToString(), _standardFont));
+                clICiudad.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clICiudad.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clICiudad);
+
+                PdfPCell clIFechaRegistro = new PdfPCell(new Phrase(lista[i].FechaRegistro.ToShortDateString(),_standardFont));
+                clIFechaRegistro.VerticalAlignment = Element.ALIGN_MIDDLE;
+                clIFechaRegistro.HorizontalAlignment = Element.ALIGN_CENTER;
+                tabla.AddCell(clIFechaRegistro);
 
 
             }

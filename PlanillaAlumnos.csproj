@@ -141,6 +141,9 @@
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AlumnoCLS.cs" />
+    <Compile Include="Models\Ciudad.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ModelAlumnos.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -170,6 +173,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\Login.css" />
     <Content Include="Content\css\Registrar.css" />
+    <Content Include="Content\jquery.dataTables.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -199,6 +203,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -215,8 +220,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Alumno\AgregarAlumno.cshtml" />
     <Content Include="Views\Alumno\EditarAlumno.cshtml" />
@@ -224,6 +227,7 @@
     <Content Include="Views\Alumno\Index.cshtml" />
     <Content Include="Views\Acceso\Login.cshtml" />
     <Content Include="Views\Acceso\Registrar.cshtml" />
+    <Content Include="Views\Alumno\ListaCiudades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

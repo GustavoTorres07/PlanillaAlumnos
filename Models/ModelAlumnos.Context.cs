@@ -25,7 +25,8 @@ namespace PlanillaAlumnos.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Alumno> Alumno { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
+        public virtual DbSet<Alumno> Alumno { get; set; }
+        public virtual DbSet<Ciudad> Ciudad { get; set; }
     }
 }

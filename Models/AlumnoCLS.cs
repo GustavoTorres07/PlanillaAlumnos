@@ -24,6 +24,10 @@ namespace PlanillaAlumnos.Models
         [Required]
         [Display(Name = "Dni")]
         public int Dni { get; set; }
+        [Required]
+        [Display(Name = "Ciudad")]
+        public int CodCiudad { get; set; }
+
 
 
 

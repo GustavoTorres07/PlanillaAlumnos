@@ -12,19 +12,18 @@ namespace PlanillaAlumnos.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Alumno
+    public partial class Ciudad
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Sexo { get; set; }
-        public int Edad { get; set; }
-        public int Dni { get; set; }
-        public System.DateTime FechaRegistro { get; set; }
-        public int CodCiudad { get; set; }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Ciudad()
+        {
+            this.Alumno = new HashSet<Alumno>();
+        }
     
-
-        public virtual Ciudad Ciudad { get; set; }
+        public int IdCiudad { get; set; }
+        public string NombreCiudad { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Alumno> Alumno { get; set; }
     }
 }

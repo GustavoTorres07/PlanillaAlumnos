@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PlanillaAlumnos.Models.Alumno>
+﻿@using PlanillaAlumnos.Models
+@model IEnumerable<Alumno>
 
 @{
     ViewBag.Title = "Planilla Alumnos";
@@ -6,97 +7,141 @@
 }
 
 
-<h2>Lista de Alumnos</h2>
+<center>
+    <h2>Lista de Alumnos</h2>
+    </center>
 
-<p>
-    @Html.ActionLink("Agregar Alumno", "AgregarAlumno")
-    <div><a href="@Url.Action("generarPDF")" target="NewTab"> Generar PDF </a></div>
-</p>
+        <div class="container-fluid" style="margin:5px">
+            @*@Html.ActionLink("Agregar Alumno", "AgregarAlumno")*@
+            <a href="@Url.Action("AgregarAlumno", "Alumno")" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>
+                    <strong>Agregar Alumno</strong>
+                </span>
+            </a>
+            @*@Html.ActionLink("Agregar Alumno", "AgregarAlumno", null, htmlAttributes: new { @class = "btn btn-sucess" })*@
+            <a class="btn btn-primary glyphicon glyphicon-floppy-save" target=" " href="@Url.Action("generarPDF")"> ReportePDF</a>
 
-<table class="table">
-    <tr>
-        <th>
-            Nombre
-        </th>
-        <th>
-            Apellido
-        </th>
-        <th>
-            Sexo
-        </th>
-        <th>
-            Edad
-        </th>
-        <th>
-            Dni
-        </th>
-        <th>
-            Fecha de Registro
-        </th>
-        <th></th>
-    </tr>
+        </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-
-                @{
-
-                    if (item.Sexo == "M")
-                    {
-
-                        <span>Masculino</span>
-
-                    }
-                    else
-                    {
-
-                        <span>Femenino</span>
-
-                    }
+        <div class=" " style="display: flex; justify-content: end; margin: 5px">
+            <form class="form-inline" action="@Url.Action("Index")" method="post">
+                <div class="input-group ">
+                    <input name="Busqueda" type="text" class="form-control" placeholder="Search" id="txtSearch" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
 
-                }
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Edad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dni)
-            </td>
-            <td>
-                @item.FechaRegistro.ToShortDateString()
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "EditarAlumno", new { id = item.Id }) |
-                @Html.ActionLink("Detalles", "DetallesAlumno", new { id = item.Id }) |
-                @Html.ActionLink("Eliminar", "EliminarAlumno", new { id = item.Id }, new { @class = "aElimina" })
-            </td>
-        </tr>
-    }
-
-</table>
 
 
-@section Scripts{
 
-    <script>
 
-        $(".aElimina").click(function (event) {
-            if (!confirm('Estas seguro de Eliminar el Alumno?')) {
-                event.preventDefault();
+        <table id="tabla_alumnos" class="table table-bordered" @*class="cell-border" style="width:100%"*@>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Sexo</th>
+                    <th>Edad</th>
+                    <th>Dni</th>
+                    <th>Ciudad</th>
+                    <th>Fecha de Registro</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+
+                        @{
+
+                            if (item.Sexo == "M")
+                            {
+
+                                <span>Masculino</span>
+
+                            }
+                            else
+                            {
+
+                                <span>Femenino</span>
+
+                            }
+
+
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Edad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dni)
+                    </td>
+                    <td>
+
+                        @PlanillaAlumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
+
+                    </td>
+                    <td>
+                        @item.FechaRegistro.ToShortDateString()
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Editar", "EditarAlumno", new { id = item.Id })*@
+                        @*@Html.ActionLink("Editar", "EditarAlumno", new { id = item.Id }, new { @class = "btn btn-info fa fa-pencil" })*@
+                        @*@Html.ActionLink("Detalles", "DetallesAlumno", new { id = item.Id })*@
+                        @*@Html.ActionLink("Editar", "EditarAlumno", null, new { id = item.Id }, new { @class = "btn btn-default fa fa-pencil" })*@
+                        @Html.ActionLink(" ", "EditarAlumno", "Alumno", new { id = item.Id }, htmlAttributes: new { @class = "glyphicon glyphicon-edit" })
+
+                        @*@Html.ActionLink("Detalles", "DetallesAlumno", new { id = item.Id }, new { @class = "btn btn-info fa fa-pencil" })*@
+
+                        @Html.ActionLink(" ", "DetallesAlumno", "Alumno", new { id = item.Id }, htmlAttributes: new { @class = "glyphicon glyphicon-th-list" })
+
+                        @Html.ActionLink("Eliminar", "EliminarAlumno", new { id = item.Id }, new { @class = "aElimina" })
+
+
+                    </td>
+                </tr>
             }
-        });
 
-    </script>
+        </table>
 
 
-}
+        @section Scripts{
+
+            <script>
+
+                $(".aElimina").click(function (event) {
+                    if (!confirm('Estas seguro de Eliminar el Alumno?')) {
+                        event.preventDefault();
+                    }
+                });
+
+            </script>
+
+            <script>
+
+                            //$(document).ready(function () {
+                            //    $('#tabla_alumnos').DataTable();
+                            //});
+            </script>
+
+
+
+
+
+        }

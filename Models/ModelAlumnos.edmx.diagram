@@ -5,8 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1d67d50295104a02b8c01e0a7de42c76" Name="Diagram1">
-        <EntityTypeShape EntityType="AlumnosDBModel.Alumno" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlumnosDBModel.USUARIO" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlumnosDBModel.USUARIO" Width="1.5" PointX="7" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Alumno" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Ciudad" Width="1.5" PointX="0.75" PointY="1.5" />
+        <AssociationConnector Association="AlumnosDBModel.FK_Alumno_Ciudad" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

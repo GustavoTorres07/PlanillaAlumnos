@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AlumnosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AlumnosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Alumno">
           <Key>
             <PropertyRef Name="Id" />
@@ -16,6 +16,14 @@
           <Property Name="Edad" Type="int" Nullable="false" />
           <Property Name="Dni" Type="int" Nullable="false" />
           <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="CodCiudad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="IdCiudad" />
+          </Key>
+          <Property Name="IdCiudad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreCiudad" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -25,27 +33,31 @@
           <Property Name="Correo" Type="varchar" MaxLength="100" />
           <Property Name="Clave" Type="varchar" MaxLength="500" />
         </EntityType>
+        <Association Name="FK_Alumno_Ciudad">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="1" />
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="IdCiudad" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="CodCiudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AlumnosDBModelStoreContainer">
           <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alumno_Ciudad" Association="Self.FK_Alumno_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Alumno" EntitySet="Alumno" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AlumnosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Alumno">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Edad" Type="Int32" Nullable="false" />
-          <Property Name="Dni" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
         <EntityType Name="USUARIO">
           <Key>
             <PropertyRef Name="IdUsuario" />
@@ -55,34 +67,82 @@
           <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="AlumnosContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Alumno" EntityType="Self.Alumno" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <EntitySet Name="Alumno" EntityType="AlumnosDBModel.Alumno" />
+          <EntitySet Name="Ciudad" EntityType="AlumnosDBModel.Ciudad" />
+          <AssociationSet Name="FK_Alumno_Ciudad" Association="AlumnosDBModel.FK_Alumno_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Alumno" EntitySet="Alumno" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Edad" Type="Int32" Nullable="false" />
+          <Property Name="Dni" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodCiudad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ciudad" Relationship="AlumnosDBModel.FK_Alumno_Ciudad" FromRole="Alumno" ToRole="Ciudad" />
+        </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="IdCiudad" />
+          </Key>
+          <Property Name="IdCiudad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreCiudad" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Alumno" Relationship="AlumnosDBModel.FK_Alumno_Ciudad" FromRole="Ciudad" ToRole="Alumno" />
+        </EntityType>
+        <Association Name="FK_Alumno_Ciudad">
+          <End Type="AlumnosDBModel.Ciudad" Role="Ciudad" Multiplicity="1" />
+          <End Type="AlumnosDBModel.Alumno" Role="Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="IdCiudad" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="CodCiudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AlumnosDBModelStoreContainer" CdmEntityContainer="AlumnosContext">
-          <EntitySetMapping Name="Alumno">
-            <EntityTypeMapping TypeName="AlumnosDBModel.Alumno">
-              <MappingFragment StoreEntitySet="Alumno">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="Dni" ColumnName="Dni" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="USUARIO">
             <EntityTypeMapping TypeName="AlumnosDBModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alumno">
+            <EntityTypeMapping TypeName="AlumnosDBModel.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="CodCiudad" ColumnName="CodCiudad" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ciudad">
+            <EntityTypeMapping TypeName="AlumnosDBModel.Ciudad">
+              <MappingFragment StoreEntitySet="Ciudad">
+                <ScalarProperty Name="NombreCiudad" ColumnName="NombreCiudad" />
+                <ScalarProperty Name="IdCiudad" ColumnName="IdCiudad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
