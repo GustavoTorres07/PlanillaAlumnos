@@ -62,6 +62,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "EditarAlumno", new { id = Model.Id }) |
-    @Html.ActionLink("Regresar", "Index")
+    @*@Html.ActionLink("Editar", "EditarAlumno", new { id = Model.Id })*@
+    @*@Html.ActionLink("Regresar", "Index")*@
+    @Html.ActionLink(" ", "Index", null, new { @class = "glyphicon glyphicon-circle-arrow-left" })
+    @Html.ActionLink(" ", "EditarAlumno", new { id = Model.Id }, htmlAttributes: new { @class = "glyphicon glyphicon-pencil" })
 </p>
