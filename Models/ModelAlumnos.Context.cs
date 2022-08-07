@@ -12,6 +12,8 @@ namespace PlanillaAlumnos.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AlumnosContext : DbContext
     {
@@ -27,6 +29,24 @@ namespace PlanillaAlumnos.Models
     
         public virtual DbSet<USUARIO> USUARIO { get; set; }
         public virtual DbSet<Alumno> Alumno { get; set; }
+        public virtual DbSet<AlumnoMateria> AlumnoMateria { get; set; }
+        public virtual DbSet<Ciclo> Ciclo { get; set; }
         public virtual DbSet<Ciudad> Ciudad { get; set; }
+        public virtual DbSet<Materia> Materia { get; set; }
+        public virtual DbSet<Notas> Notas { get; set; }
+    
+        public virtual ObjectResult<BusquedaByAlumno_Result> BusquedaByAlumno(Nullable<int> idAlumno)
+        {
+            var idAlumnoParameter = idAlumno.HasValue ?
+                new ObjectParameter("IdAlumno", idAlumno) :
+                new ObjectParameter("IdAlumno", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BusquedaByAlumno_Result>("BusquedaByAlumno", idAlumnoParameter);
+        }
+    
+        public virtual ObjectResult<listaAlumnosCiudades_Result> listaAlumnosCiudades()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<listaAlumnosCiudades_Result>("listaAlumnosCiudades");
+        }
     }
 }

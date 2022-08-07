@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DetallesAlumno</h2>
+<h2>Detalles del Alumno</h2>
 
 <div>
     <h4>Alumno</h4>
@@ -58,9 +58,20 @@
         <dd>
             @Html.DisplayFor(model => model.FechaRegistro)
         </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Ciudad.NombreCiudad)
+        </dd>
 
     </dl>
+     
+    @{ 
+        Html.RenderPartial("components/acordion", 0);
+    }
+ 
 </div>
+
+
+
 <p>
     @*@Html.ActionLink("Editar", "EditarAlumno", new { id = Model.Id })*@
     @*@Html.ActionLink("Regresar", "Index")*@

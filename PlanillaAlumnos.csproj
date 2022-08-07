@@ -141,7 +141,23 @@
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AlumnoCLS.cs" />
+    <Compile Include="Models\AlumnoMateria.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BusquedaByAlumno_Result.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ciclo.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ciudad.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FilterDTO.cs" />
+    <Compile Include="Models\listaAlumnosCiudades_Result.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Materia.cs">
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelAlumnos.Context.cs">
@@ -158,6 +174,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelAlumnos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notas.cs">
+      <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USUARIO.cs">
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
@@ -228,9 +247,11 @@
     <Content Include="Views\Acceso\Login.cshtml" />
     <Content Include="Views\Acceso\Registrar.cshtml" />
     <Content Include="Views\Alumno\ListaCiudades.cshtml" />
+    <Content Include="Views\Alumno\components\acordion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Ciudad\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

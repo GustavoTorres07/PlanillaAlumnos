@@ -12,25 +12,18 @@ namespace PlanillaAlumnos.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Alumno
+    public partial class Ciclo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Alumno()
+        public Ciclo()
         {
-            this.AlumnoMateria = new HashSet<AlumnoMateria>();
+            this.Materia = new HashSet<Materia>();
         }
     
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Sexo { get; set; }
-        public int Edad { get; set; }
-        public int Dni { get; set; }
-        public System.DateTime FechaRegistro { get; set; }
-        public int CodCiudad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlumnoMateria> AlumnoMateria { get; set; }
-        public virtual Ciudad Ciudad { get; set; }
+        public virtual ICollection<Materia> Materia { get; set; }
     }
 }

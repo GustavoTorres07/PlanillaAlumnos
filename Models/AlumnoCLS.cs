@@ -27,6 +27,7 @@ namespace PlanillaAlumnos.Models
         [Required]
         [Display(Name = "Ciudad")]
         public int CodCiudad { get; set; }
+        public string Ciudad { get; set; }
 
 
 

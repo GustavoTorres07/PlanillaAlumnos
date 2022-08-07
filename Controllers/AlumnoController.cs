@@ -23,16 +23,16 @@ namespace PlanillaAlumnos.Controllers
                 {
                     using (AlumnosContext db = new AlumnosContext())
                     {
-
-                        //return View(db.Alumno.Where(a => a.Nombre.StartsWith(nombreFiltro)).ToList()); || a.aApellido.StartsWith(nombreFiltro)).ToList();
-                        return View(db.Alumno.Where(a =>
+                        var data = db.Alumno.Where(a =>
+                        a.Ciudad.NombreCiudad.StartsWith(Busqueda) ||
                         a.Nombre.StartsWith(Busqueda) ||
                         a.Apellido.StartsWith(Busqueda) ||
                         a.Sexo.StartsWith(Busqueda) ||
                         a.Edad.ToString().StartsWith(Busqueda) ||
                         a.Dni.ToString().StartsWith(Busqueda) ||
-                        a.FechaRegistro.ToString().StartsWith(Busqueda)).ToList()
-                        );
+                        a.FechaRegistro.ToString().StartsWith(Busqueda)).ToList();
+                        return View(data);
+
 
 
 
@@ -65,7 +65,6 @@ namespace PlanillaAlumnos.Controllers
 
         }
 
-
         public ActionResult AgregarAlumno()
         {
 
@@ -74,14 +73,30 @@ namespace PlanillaAlumnos.Controllers
         }
 
         [HttpPost]
+        public ActionResult Index(FilterDTO dto)
+        {
+            ViewBag.Search = dto.Search;
+            using (AlumnosContext db = new AlumnosContext())
+            {
+                if(!string.IsNullOrEmpty(dto.Search) || !string.IsNullOrWhiteSpace(dto.Search))
+                {
+                    var data = db.Alumno.Where(a => a.Apellido.Contains(dto.Search));
+                    if (dto.Toggle)
+                        data = db.Alumno.Where(a => a.Dni.ToString().Contains(dto.Search));
+                    return View("Index", data.ToList());
+                }
+                return View("Index", db.Alumno.ToList());
+            }
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("AgregarAlumno")]
         public ActionResult AgregarAlumno(Alumno a)
         {
 
             if (!ModelState.IsValid)
-
                 return View();
-
             try
             {
                 using (AlumnosContext db = new AlumnosContext())
@@ -107,12 +122,6 @@ namespace PlanillaAlumnos.Controllers
 
         }
 
-        //public ActionResult Agregar2()
-        //{
-
-        //    return View();
-
-        //}
 
         public ActionResult ListaCiudades()
         {
@@ -191,7 +200,7 @@ namespace PlanillaAlumnos.Controllers
             {
 
                 Alumno alu = db.Alumno.Find(id);
-
+                alu.Ciudad = db.Ciudad.Where(i => i.IdCiudad == alu.CodCiudad).First();
                 return View(alu);
             }
 
@@ -219,7 +228,7 @@ namespace PlanillaAlumnos.Controllers
             using (var db = new AlumnosContext())
             {
 
-                return db.Ciudad.Find(CodCiudad).NombreCiudad; 
+                return db.Ciudad.Find(CodCiudad).NombreCiudad;
 
             }
 
@@ -228,10 +237,10 @@ namespace PlanillaAlumnos.Controllers
 
 
 
-  
+
         public FileResult generarPDF()
         {
-           
+
             Document doc = new Document(PageSize.LETTER);
             byte[] buffer;
             MemoryStream ms = new MemoryStream();
@@ -245,7 +254,7 @@ namespace PlanillaAlumnos.Controllers
             iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
 
-            Paragraph titulo = new Paragraph("Lista de Alumnos",_titulo);
+            Paragraph titulo = new Paragraph("Lista de Alumnos", _titulo);
             titulo.Alignment = Element.ALIGN_CENTER;
 
             doc.Add(titulo);
@@ -258,7 +267,7 @@ namespace PlanillaAlumnos.Controllers
 
             //Ancho columnas
             //float[] Valores = new float[6] { 90, 90, 80, 80, 80, 170 };
-            float[] medidaCeldas = { 4.00f, 4.00f, 4.00f, 4.00f, 4.00f, 4.00f, 4.50f };
+            float[] medidaCeldas = { 10.00f, 10.00f, 10.00f, 10.00f, 12.00f, 15.00f, 13.00f };
             //asigno esos anchos a la tabla
             tabla.SetWidths(medidaCeldas);
 
@@ -307,62 +316,62 @@ namespace PlanillaAlumnos.Controllers
             List<Alumno> lista = new List<Alumno>();
             using (AlumnosContext db = new AlumnosContext())
             {
-                lista = db.Alumno.ToList(); 
+                lista = db.Alumno.ToList();
+                //}
+
+                int nregistros = lista.Count;
+                for (int i = 0; i < nregistros; i++)
+                {
+
+                    PdfPCell clINombre = new PdfPCell(new Phrase(lista[i].Nombre, _standardFont));
+                    clINombre.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clINombre.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clINombre);
+
+
+                    PdfPCell clIApellido = new PdfPCell(new Phrase(lista[i].Apellido, _standardFont));
+                    clIApellido.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clIApellido.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clIApellido);
+
+                    PdfPCell clISexo = new PdfPCell(new Phrase(lista[i].Sexo, _standardFont));
+                    clISexo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clISexo.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clISexo);
+
+                    PdfPCell clIEdad = new PdfPCell(new Phrase(lista[i].Edad.ToString(), _standardFont));
+                    clIEdad.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clIEdad.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clIEdad);
+
+                    PdfPCell clIDni = new PdfPCell(new Phrase(lista[i].Dni.ToString(), _standardFont));
+                    clIDni.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clIDni.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clIDni);
+
+                    PdfPCell clICiudad = new PdfPCell(new Phrase(lista[i].Ciudad.NombreCiudad.ToString(), _standardFont));
+                    clICiudad.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clICiudad.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clICiudad);
+
+                    PdfPCell clIFechaRegistro = new PdfPCell(new Phrase(lista[i].FechaRegistro.ToShortDateString(), _standardFont));
+                    clIFechaRegistro.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    clIFechaRegistro.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(clIFechaRegistro);
+
+
+                }
+
+                doc.Add(tabla);
+                doc.Close();
+                buffer = ms.ToArray();
+                //ms1 = ms;
+
+
+                //}
+                return File(buffer, "application/pdf");
+
             }
-
-            int nregistros = lista.Count;
-            for (int i = 0; i < nregistros; i++)
-            {
-
-        
-                PdfPCell clINombre = new PdfPCell(new Phrase(lista[i].Nombre,_standardFont));
-                clINombre.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clINombre.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clINombre);
-
-   
-                PdfPCell clIApellido = new PdfPCell(new Phrase(lista[i].Apellido,_standardFont));
-                clIApellido.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clIApellido.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clIApellido);
-
-                PdfPCell clISexo = new PdfPCell(new Phrase(lista[i].Sexo,_standardFont));
-                clISexo.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clISexo.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clISexo);
-       
-                PdfPCell clIEdad = new PdfPCell(new Phrase(lista[i].Edad.ToString(),_standardFont));
-                clIEdad.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clIEdad.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clIEdad);
-           
-                PdfPCell clIDni = new PdfPCell(new Phrase(lista[i].Dni.ToString(),_standardFont));
-                clIDni.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clIDni.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clIDni);
-
-                PdfPCell clICiudad = new PdfPCell(new Phrase(lista[i].CodCiudad.ToString(), _standardFont));
-                clICiudad.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clICiudad.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clICiudad);
-
-                PdfPCell clIFechaRegistro = new PdfPCell(new Phrase(lista[i].FechaRegistro.ToShortDateString(),_standardFont));
-                clIFechaRegistro.VerticalAlignment = Element.ALIGN_MIDDLE;
-                clIFechaRegistro.HorizontalAlignment = Element.ALIGN_CENTER;
-                tabla.AddCell(clIFechaRegistro);
-
-
-            }
-
-            doc.Add(tabla);
-            doc.Close();
-            buffer = ms.ToArray();
-            //ms1 = ms;
-
-
-            //}
-            return File(buffer, "application/pdf");
-
         }
 
     }
