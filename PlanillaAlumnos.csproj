@@ -52,7 +52,7 @@
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>..\..\..\Downloads\itextsharp.dll</HintPath>
+      <HintPath>D:\Descargas\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -133,6 +133,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\AlumnoMateriaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -144,6 +145,7 @@
     <Compile Include="Models\AlumnoMateria.cs">
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AlumnoMateriaCLS.cs" />
     <Compile Include="Models\BusquedaByAlumno_Result.cs">
       <DependentUpon>ModelAlumnos.tt</DependentUpon>
     </Compile>
@@ -248,6 +250,7 @@
     <Content Include="Views\Acceso\Registrar.cshtml" />
     <Content Include="Views\Alumno\ListaCiudades.cshtml" />
     <Content Include="Views\Alumno\components\acordion.cshtml" />
+    <Content Include="Views\AlumnoMateria\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

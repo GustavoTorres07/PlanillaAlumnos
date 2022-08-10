@@ -65,20 +65,13 @@ namespace PlanillaAlumnos.Controllers
 
         }
 
-        public ActionResult AgregarAlumno()
-        {
-
-            return View();
-
-        }
-
         [HttpPost]
         public ActionResult Index(FilterDTO dto)
         {
             ViewBag.Search = dto.Search;
             using (AlumnosContext db = new AlumnosContext())
             {
-                if(!string.IsNullOrEmpty(dto.Search) || !string.IsNullOrWhiteSpace(dto.Search))
+                if (!string.IsNullOrEmpty(dto.Search) || !string.IsNullOrWhiteSpace(dto.Search))
                 {
                     var data = db.Alumno.Where(a => a.Apellido.Contains(dto.Search));
                     if (dto.Toggle)
@@ -88,6 +81,15 @@ namespace PlanillaAlumnos.Controllers
                 return View("Index", db.Alumno.ToList());
             }
         }
+
+        public ActionResult AgregarAlumno()
+        {
+
+            return View();
+
+        }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
