@@ -21,13 +21,13 @@ namespace PlanillaAlumnos.Models
         }
     
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Sexo { get; set; }
-        public int Edad { get; set; }
-        public int Dni { get; set; }
-        public System.DateTime FechaRegistro { get; set; }
-        public int CodCiudad { get; set; }
+        public string NombreAlumno { get; set; }
+        public string ApellidoAlumno { get; set; }
+        public string SexoAlumno { get; set; }
+        public int EdadAlumno { get; set; }
+        public int DniAlumno { get; set; }
+        public System.DateTime FechaRegistroAlumno { get; set; }
+        public int IdCiudad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlumnoMateria> AlumnoMateria { get; set; }

@@ -20,7 +20,7 @@ namespace PlanillaAlumnos.Models
             this.Alumno = new HashSet<Alumno>();
         }
     
-        public int IdCiudad { get; set; }
+        public int Id { get; set; }
         public string NombreCiudad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -105,16 +105,16 @@
     {
         <tr>
             <td>
-                <a href="@Url.Action("DetallesAlumno", "Alumno", new { id=item.Id })">@Html.DisplayFor(modelItem => item.Nombre)</a>
+                <a href="@Url.Action("DetallesAlumno", "Alumno", new { id=item.Id })">@Html.DisplayFor(modelItem => item.NombreAlumno)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
+                @Html.DisplayFor(modelItem => item.ApellidoAlumno)
             </td>
             <td>
 
                 @{
 
-                    if (item.Sexo == "M")
+                    if (item.SexoAlumno == "M")
                     {
 
                         <span>Masculino</span>
@@ -132,18 +132,18 @@
 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Edad)
+                @Html.DisplayFor(modelItem => item.EdadAlumno)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dni)
+                @Html.DisplayFor(modelItem => item.DniAlumno)
             </td>
             <td>
 
-                @PlanillaAlumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
+                @PlanillaAlumnos.Controllers.AlumnoController.NombreCiudad(item.IdCiudad)
 
             </td>
             <td>
-                @item.FechaRegistro.ToShortDateString()
+                @item.FechaRegistroAlumno.ToShortDateString()
             </td>
             <td>
                 @*@Html.ActionLink("Editar", "EditarAlumno", new { id = item.Id })*@

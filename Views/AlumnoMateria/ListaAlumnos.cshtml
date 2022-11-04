@@ -1,0 +1,15 @@
+﻿@model IEnumerable<PlanillaAlumnos.Models.Alumno>
+
+<select class="form-control" id="IdAlumno" name="IdAlumno">
+
+    @foreach (var item in Model)
+    {
+
+        <option value="@item.Id">@item.NombreAlumno</option>
+        @*razor*@
+
+    }
+
+
+
+</select>

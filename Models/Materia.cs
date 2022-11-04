@@ -21,8 +21,8 @@ namespace PlanillaAlumnos.Models
         }
     
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public int IdCliclo { get; set; }
+        public string NombreMateria { get; set; }
+        public int IdCiclo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlumnoMateria> AlumnoMateria { get; set; }

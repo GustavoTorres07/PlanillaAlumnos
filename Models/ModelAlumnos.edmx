@@ -10,20 +10,20 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Apellido" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Sexo" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="Edad" Type="int" Nullable="false" />
-          <Property Name="Dni" Type="int" Nullable="false" />
-          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
-          <Property Name="CodCiudad" Type="int" Nullable="false" />
+          <Property Name="NombreAlumno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoAlumno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SexoAlumno" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="EdadAlumno" Type="int" Nullable="false" />
+          <Property Name="DniAlumno" Type="int" Nullable="false" />
+          <Property Name="FechaRegistroAlumno" Type="datetime" Nullable="false" />
+          <Property Name="IdCiudad" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AlumnoMateria">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Año" Type="int" Nullable="false" />
+          <Property Name="AñoCursada" Type="int" Nullable="false" />
           <Property Name="IdAlumno" Type="int" Nullable="false" />
           <Property Name="IdMateria" Type="int" Nullable="false" />
         </EntityType>
@@ -32,13 +32,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="NombreCiclo" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Ciudad">
           <Key>
-            <PropertyRef Name="IdCiudad" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="IdCiudad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreCiudad" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Materia">
@@ -46,8 +46,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="IdCliclo" Type="int" Nullable="false" />
+          <Property Name="NombreMateria" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="IdCiclo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Notas">
           <Key>
@@ -105,7 +105,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Materia">
-              <PropertyRef Name="IdCliclo" />
+              <PropertyRef Name="IdCiclo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -126,10 +126,10 @@
           <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ciudad">
-              <PropertyRef Name="IdCiudad" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Alumno">
-              <PropertyRef Name="CodCiudad" />
+              <PropertyRef Name="IdCiudad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -170,16 +170,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AlumnosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="USUARIO">
-          <Key>
-            <PropertyRef Name="IdUsuario" />
-          </Key>
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityContainer Name="AlumnosContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
           <FunctionImport Name="BusquedaByAlumno" ReturnType="Collection(AlumnosDBModel.BusquedaByAlumno_Result)">
           <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -189,6 +180,8 @@
           <EntitySet Name="Ciclo" EntityType="AlumnosDBModel.Ciclo" />
           <EntitySet Name="Ciudad" EntityType="AlumnosDBModel.Ciudad" />
           <EntitySet Name="Materia" EntityType="AlumnosDBModel.Materia" />
+          <EntitySet Name="Notas" EntityType="AlumnosDBModel.Notas" />
+          <EntitySet Name="USUARIO" EntityType="AlumnosDBModel.USUARIO" />
           <AssociationSet Name="FK__AlumnoMat__IdAlu__74AE54BC" Association="AlumnosDBModel.FK__AlumnoMat__IdAlu__74AE54BC">
             <End Role="Alumno" EntitySet="Alumno" />
             <End Role="AlumnoMateria" EntitySet="AlumnoMateria" />
@@ -201,16 +194,15 @@
             <End Role="Materia" EntitySet="Materia" />
             <End Role="AlumnoMateria" EntitySet="AlumnoMateria" />
           </AssociationSet>
-          <AssociationSet Name="FK__Materia__IdClicl__71D1E811" Association="AlumnosDBModel.FK__Materia__IdClicl__71D1E811">
-            <End Role="Ciclo" EntitySet="Ciclo" />
-            <End Role="Materia" EntitySet="Materia" />
-          </AssociationSet>
-          <EntitySet Name="Notas" EntityType="AlumnosDBModel.Notas" />
           <AssociationSet Name="FK__Notas__IdAlumnoM__02FC7413" Association="AlumnosDBModel.FK__Notas__IdAlumnoM__02FC7413">
             <End Role="AlumnoMateria" EntitySet="AlumnoMateria" />
             <End Role="Notas" EntitySet="Notas" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK__Materia__IdClicl__71D1E811" Association="AlumnosDBModel.FK__Materia__IdClicl__71D1E811">
+            <End Role="Ciclo" EntitySet="Ciclo" />
+            <End Role="Materia" EntitySet="Materia" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="BusquedaByAlumno_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
@@ -236,13 +228,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Edad" Type="Int32" Nullable="false" />
-          <Property Name="Dni" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CodCiudad" Type="Int32" Nullable="false" />
+          <Property Name="NombreAlumno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoAlumno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SexoAlumno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EdadAlumno" Type="Int32" Nullable="false" />
+          <Property Name="DniAlumno" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistroAlumno" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdCiudad" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AlumnoMateria" Relationship="AlumnosDBModel.FK__AlumnoMat__IdAlu__74AE54BC" FromRole="Alumno" ToRole="AlumnoMateria" />
           <NavigationProperty Name="Ciudad" Relationship="AlumnosDBModel.FK_Alumno_Ciudad" FromRole="Alumno" ToRole="Ciudad" />
         </EntityType>
@@ -251,7 +243,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Año" Type="Int32" Nullable="false" />
+          <Property Name="AñoCursada" Type="Int32" Nullable="false" />
           <Property Name="IdAlumno" Type="Int32" Nullable="false" />
           <Property Name="IdMateria" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Alumno" Relationship="AlumnosDBModel.FK__AlumnoMat__IdAlu__74AE54BC" FromRole="AlumnoMateria" ToRole="Alumno" />
@@ -263,14 +255,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCiclo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Materia" Relationship="AlumnosDBModel.FK__Materia__IdClicl__71D1E811" FromRole="Ciclo" ToRole="Materia" />
         </EntityType>
         <EntityType Name="Ciudad">
           <Key>
-            <PropertyRef Name="IdCiudad" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="IdCiudad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NombreCiudad" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Alumno" Relationship="AlumnosDBModel.FK_Alumno_Ciudad" FromRole="Ciudad" ToRole="Alumno" />
         </EntityType>
@@ -279,10 +271,35 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="IdCliclo" Type="Int32" Nullable="false" />
+          <Property Name="NombreMateria" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IdCiclo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AlumnoMateria" Relationship="AlumnosDBModel.FK__AlumnoMat__IdMat__75A278F5" FromRole="Materia" ToRole="AlumnoMateria" />
           <NavigationProperty Name="Ciclo" Relationship="AlumnosDBModel.FK__Materia__IdClicl__71D1E811" FromRole="Materia" ToRole="Ciclo" />
+        </EntityType>
+        <EntityType Name="Notas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAlumnoMateria" Type="Int32" Nullable="false" />
+          <Property Name="Examen1" Type="Int32" Nullable="false" />
+          <Property Name="Recuperatorio1" Type="Int32" Nullable="false" />
+          <Property Name="Examen2" Type="Int32" Nullable="false" />
+          <Property Name="Recupetario2" Type="Int32" Nullable="false" />
+          <Property Name="Examen3" Type="Int32" Nullable="false" />
+          <Property Name="Recuperatorio3" Type="Int32" Nullable="false" />
+          <Property Name="NotaFinal" Type="Int32" Nullable="false" />
+          <Property Name="ExamenFinal" Type="Int32" Nullable="false" />
+          <Property Name="Aprobada" Type="Boolean" />
+          <NavigationProperty Name="AlumnoMateria" Relationship="AlumnosDBModel.FK__Notas__IdAlumnoM__02FC7413" FromRole="Notas" ToRole="AlumnoMateria" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__AlumnoMat__IdAlu__74AE54BC">
           <End Type="AlumnosDBModel.Alumno" Role="Alumno" Multiplicity="1" />
@@ -301,10 +318,10 @@
           <End Type="AlumnosDBModel.Alumno" Role="Alumno" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ciudad">
-              <PropertyRef Name="IdCiudad" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Alumno">
-              <PropertyRef Name="CodCiudad" />
+              <PropertyRef Name="IdCiudad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -320,35 +337,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Materia__IdClicl__71D1E811">
-          <End Type="AlumnosDBModel.Ciclo" Role="Ciclo" Multiplicity="1" />
-          <End Type="AlumnosDBModel.Materia" Role="Materia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ciclo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Materia">
-              <PropertyRef Name="IdCliclo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Notas">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdAlumnoMateria" Type="Int32" Nullable="false" />
-          <Property Name="Examen1" Type="Int32" Nullable="false" />
-          <Property Name="Recuperatorio1" Type="Int32" Nullable="false" />
-          <Property Name="Examen2" Type="Int32" Nullable="false" />
-          <Property Name="Recupetario2" Type="Int32" Nullable="false" />
-          <Property Name="Examen3" Type="Int32" Nullable="false" />
-          <Property Name="Recuperatorio3" Type="Int32" Nullable="false" />
-          <Property Name="NotaFinal" Type="Int32" Nullable="false" />
-          <Property Name="ExamenFinal" Type="Int32" Nullable="false" />
-          <Property Name="Aprobada" Type="Boolean" />
-          <NavigationProperty Name="AlumnoMateria" Relationship="AlumnosDBModel.FK__Notas__IdAlumnoM__02FC7413" FromRole="Notas" ToRole="AlumnoMateria" />
-        </EntityType>
         <Association Name="FK__Notas__IdAlumnoM__02FC7413">
           <End Type="AlumnosDBModel.AlumnoMateria" Role="AlumnoMateria" Multiplicity="1" />
           <End Type="AlumnosDBModel.Notas" Role="Notas" Multiplicity="*" />
@@ -361,21 +349,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK__Materia__IdClicl__71D1E811">
+          <End Type="AlumnosDBModel.Ciclo" Role="Ciclo" Multiplicity="1" />
+          <End Type="AlumnosDBModel.Materia" Role="Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciclo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Materia">
+              <PropertyRef Name="IdCiclo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AlumnosDBModelStoreContainer" CdmEntityContainer="AlumnosContext">
-          <EntitySetMapping Name="USUARIO">
-            <EntityTypeMapping TypeName="AlumnosDBModel.USUARIO">
-              <MappingFragment StoreEntitySet="USUARIO">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="BusquedaByAlumno" FunctionName="AlumnosDBModel.Store.BusquedaByAlumno">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AlumnosDBModel.BusquedaByAlumno_Result">
@@ -407,13 +398,13 @@
           <EntitySetMapping Name="Alumno">
             <EntityTypeMapping TypeName="AlumnosDBModel.Alumno">
               <MappingFragment StoreEntitySet="Alumno">
-                <ScalarProperty Name="CodCiudad" ColumnName="CodCiudad" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="Dni" ColumnName="Dni" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCiudad" ColumnName="IdCiudad" />
+                <ScalarProperty Name="FechaRegistroAlumno" ColumnName="FechaRegistroAlumno" />
+                <ScalarProperty Name="DniAlumno" ColumnName="DniAlumno" />
+                <ScalarProperty Name="EdadAlumno" ColumnName="EdadAlumno" />
+                <ScalarProperty Name="SexoAlumno" ColumnName="SexoAlumno" />
+                <ScalarProperty Name="ApellidoAlumno" ColumnName="ApellidoAlumno" />
+                <ScalarProperty Name="NombreAlumno" ColumnName="NombreAlumno" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -423,7 +414,7 @@
               <MappingFragment StoreEntitySet="AlumnoMateria">
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
-                <ScalarProperty Name="Año" ColumnName="Año" />
+                <ScalarProperty Name="AñoCursada" ColumnName="AñoCursada" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -431,7 +422,7 @@
           <EntitySetMapping Name="Ciclo">
             <EntityTypeMapping TypeName="AlumnosDBModel.Ciclo">
               <MappingFragment StoreEntitySet="Ciclo">
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="NombreCiclo" ColumnName="NombreCiclo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -440,15 +431,15 @@
             <EntityTypeMapping TypeName="AlumnosDBModel.Ciudad">
               <MappingFragment StoreEntitySet="Ciudad">
                 <ScalarProperty Name="NombreCiudad" ColumnName="NombreCiudad" />
-                <ScalarProperty Name="IdCiudad" ColumnName="IdCiudad" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Materia">
             <EntityTypeMapping TypeName="AlumnosDBModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
-                <ScalarProperty Name="IdCliclo" ColumnName="IdCliclo" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCiclo" ColumnName="IdCiclo" />
+                <ScalarProperty Name="NombreMateria" ColumnName="NombreMateria" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -470,7 +461,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="AlumnosDBModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

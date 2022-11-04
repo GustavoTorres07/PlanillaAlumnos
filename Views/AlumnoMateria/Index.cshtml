@@ -6,40 +6,68 @@
 
 <h2>Index</h2>
 
+<style type="text/css">
+    table th {
+        text-align: center;
+    }
+</style>
+
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Asignar Alumno a Materia", "AsignarAlumnoMateria")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Año)
+        <th align="center">
+            Año Cursada
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdAlumno)
+            Nombre
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdMateria)
+            Dni
+        </th>
+        <th>
+            Materia
+        </th>
+        <th>
+            Acciones
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Año)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.AñoCursada)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.IdAlumno)
+                </td>*@
+            <td align="center">
+
+                @PlanillaAlumnos.Controllers.AlumnoMateriaController.NombreAlumno(item.IdAlumno)
+
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.IdMateria)
+                </td>*@
+        <td align="center">
+
+            @PlanillaAlumnos.Controllers.AlumnoMateriaController.DniAlumno(item.IdAlumno)
+
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdAlumno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdMateria)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+            <td align="center">
+
+                @PlanillaAlumnos.Controllers.AlumnoMateriaController.NombreMateria(item.IdMateria)
+
+            </td>
+            <td align="center">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

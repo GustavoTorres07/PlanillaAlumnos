@@ -25,12 +25,12 @@ namespace PlanillaAlumnos.Controllers
                     {
                         var data = db.Alumno.Where(a =>
                         a.Ciudad.NombreCiudad.StartsWith(Busqueda) ||
-                        a.Nombre.StartsWith(Busqueda) ||
-                        a.Apellido.StartsWith(Busqueda) ||
-                        a.Sexo.StartsWith(Busqueda) ||
-                        a.Edad.ToString().StartsWith(Busqueda) ||
-                        a.Dni.ToString().StartsWith(Busqueda) ||
-                        a.FechaRegistro.ToString().StartsWith(Busqueda)).ToList();
+                        a.NombreAlumno.StartsWith(Busqueda) ||
+                        a.ApellidoAlumno.StartsWith(Busqueda) ||
+                        a.SexoAlumno.StartsWith(Busqueda) ||
+                        a.EdadAlumno.ToString().StartsWith(Busqueda) ||
+                        a.DniAlumno.ToString().StartsWith(Busqueda) ||
+                        a.FechaRegistroAlumno.ToString().StartsWith(Busqueda)).ToList();
                         return View(data);
 
 
@@ -73,9 +73,9 @@ namespace PlanillaAlumnos.Controllers
             {
                 if (!string.IsNullOrEmpty(dto.Search) || !string.IsNullOrWhiteSpace(dto.Search))
                 {
-                    var data = db.Alumno.Where(a => a.Apellido.Contains(dto.Search));
+                    var data = db.Alumno.Where(a => a.ApellidoAlumno.Contains(dto.Search));
                     if (dto.Toggle)
-                        data = db.Alumno.Where(a => a.Dni.ToString().Contains(dto.Search));
+                        data = db.Alumno.Where(a => a.DniAlumno.ToString().Contains(dto.Search));
                     return View("Index", data.ToList());
                 }
                 return View("Index", db.Alumno.ToList());
@@ -103,7 +103,7 @@ namespace PlanillaAlumnos.Controllers
             {
                 using (AlumnosContext db = new AlumnosContext())
                 {
-                    a.FechaRegistro = DateTime.Now;
+                    a.FechaRegistroAlumno = DateTime.Now;
 
                     db.Alumno.Add(a);
                     db.SaveChanges();
@@ -172,11 +172,11 @@ namespace PlanillaAlumnos.Controllers
                 using (AlumnosContext db = new AlumnosContext())
                 {
                     Alumno al = db.Alumno.Find(a.Id);
-                    al.Nombre = a.Nombre;
-                    al.Apellido = a.Apellido;
-                    al.Sexo = a.Sexo;
-                    al.Edad = a.Edad;
-                    al.Dni = a.Dni;
+                    al.NombreAlumno = a.NombreAlumno;
+                    al.ApellidoAlumno = a.ApellidoAlumno;
+                    al.SexoAlumno = a.SexoAlumno;
+                    al.EdadAlumno = a.EdadAlumno;
+                    al.DniAlumno = a.DniAlumno;
 
                     db.SaveChanges();
 
@@ -202,7 +202,7 @@ namespace PlanillaAlumnos.Controllers
             {
 
                 Alumno alu = db.Alumno.Find(id);
-                alu.Ciudad = db.Ciudad.Where(i => i.IdCiudad == alu.CodCiudad).First();
+                alu.Ciudad = db.Ciudad.Where(i => i.Id == alu.IdCiudad).First();
                 return View(alu);
             }
 
@@ -236,8 +236,6 @@ namespace PlanillaAlumnos.Controllers
 
 
         }
-
-
 
 
         public FileResult generarPDF()
@@ -325,28 +323,28 @@ namespace PlanillaAlumnos.Controllers
                 for (int i = 0; i < nregistros; i++)
                 {
 
-                    PdfPCell clINombre = new PdfPCell(new Phrase(lista[i].Nombre, _standardFont));
+                    PdfPCell clINombre = new PdfPCell(new Phrase(lista[i].NombreAlumno, _standardFont));
                     clINombre.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clINombre.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clINombre);
 
 
-                    PdfPCell clIApellido = new PdfPCell(new Phrase(lista[i].Apellido, _standardFont));
+                    PdfPCell clIApellido = new PdfPCell(new Phrase(lista[i].ApellidoAlumno, _standardFont));
                     clIApellido.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clIApellido.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clIApellido);
 
-                    PdfPCell clISexo = new PdfPCell(new Phrase(lista[i].Sexo, _standardFont));
+                    PdfPCell clISexo = new PdfPCell(new Phrase(lista[i].SexoAlumno, _standardFont));
                     clISexo.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clISexo.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clISexo);
 
-                    PdfPCell clIEdad = new PdfPCell(new Phrase(lista[i].Edad.ToString(), _standardFont));
+                    PdfPCell clIEdad = new PdfPCell(new Phrase(lista[i].EdadAlumno.ToString(), _standardFont));
                     clIEdad.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clIEdad.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clIEdad);
 
-                    PdfPCell clIDni = new PdfPCell(new Phrase(lista[i].Dni.ToString(), _standardFont));
+                    PdfPCell clIDni = new PdfPCell(new Phrase(lista[i].DniAlumno.ToString(), _standardFont));
                     clIDni.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clIDni.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clIDni);
@@ -356,7 +354,7 @@ namespace PlanillaAlumnos.Controllers
                     clICiudad.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clICiudad);
 
-                    PdfPCell clIFechaRegistro = new PdfPCell(new Phrase(lista[i].FechaRegistro.ToShortDateString(), _standardFont));
+                    PdfPCell clIFechaRegistro = new PdfPCell(new Phrase(lista[i].FechaRegistroAlumno.ToShortDateString(), _standardFont));
                     clIFechaRegistro.VerticalAlignment = Element.ALIGN_MIDDLE;
                     clIFechaRegistro.HorizontalAlignment = Element.ALIGN_CENTER;
                     tabla.AddCell(clIFechaRegistro);

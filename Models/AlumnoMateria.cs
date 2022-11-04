@@ -21,7 +21,7 @@ namespace PlanillaAlumnos.Models
         }
     
         public int Id { get; set; }
-        public int Año { get; set; }
+        public int AñoCursada { get; set; }
         public int IdAlumno { get; set; }
         public int IdMateria { get; set; }
     

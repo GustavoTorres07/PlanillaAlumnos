@@ -5,18 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1d67d50295104a02b8c01e0a7de42c76" Name="Diagram1">
-        <EntityTypeShape EntityType="AlumnosDBModel.USUARIO" Width="1.5" PointX="7" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlumnosDBModel.Alumno" Width="1.5" PointX="3" PointY="4.25" />
-        <EntityTypeShape EntityType="AlumnosDBModel.AlumnoMateria" Width="1.5" PointX="5.25" PointY="4.5" />
-        <EntityTypeShape EntityType="AlumnosDBModel.Ciclo" Width="1.5" PointX="0.75" PointY="1" />
-        <EntityTypeShape EntityType="AlumnosDBModel.Ciudad" Width="1.5" PointX="0.75" PointY="5" />
-        <EntityTypeShape EntityType="AlumnosDBModel.Materia" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Alumno" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="AlumnosDBModel.AlumnoMateria" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Ciclo" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Ciudad" Width="1.5" PointX="0.75" PointY="1.875" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Materia" Width="1.5" PointX="3" PointY="5.625" />
+        <EntityTypeShape EntityType="AlumnosDBModel.Notas" Width="1.5" PointX="7.5" PointY="1" />
+        <EntityTypeShape EntityType="AlumnosDBModel.USUARIO" Width="1.5" PointX="5.75" PointY="5.75" />
         <AssociationConnector Association="AlumnosDBModel.FK__AlumnoMat__IdAlu__74AE54BC" />
         <AssociationConnector Association="AlumnosDBModel.FK_Alumno_Ciudad" />
         <AssociationConnector Association="AlumnosDBModel.FK__AlumnoMat__IdMat__75A278F5" />
-        <AssociationConnector Association="AlumnosDBModel.FK__Materia__IdClicl__71D1E811" />
-        <EntityTypeShape EntityType="AlumnosDBModel.Notas" Width="1.5" PointX="7.5" PointY="4" />
         <AssociationConnector Association="AlumnosDBModel.FK__Notas__IdAlumnoM__02FC7413" />
+        <AssociationConnector Association="AlumnosDBModel.FK__Materia__IdClicl__71D1E811" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

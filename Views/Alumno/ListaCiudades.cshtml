@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<PlanillaAlumnos.Models.Ciudad>
 
-<select class="form-control" id="CodCiudad" name="CodCiudad">
+<select class="form-control" id="IdCiudad" name="IdCiudad">
 
     @foreach (var item in Model)
     {
 
-        <option value="@item.IdCiudad">@item.NombreCiudad</option>
+        <option value="@item.Id">@item.NombreCiudad</option>
         @*razor*@
 
     }

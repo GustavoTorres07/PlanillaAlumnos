@@ -11,22 +11,22 @@ namespace PlanillaAlumnos.Models
 
         [Required]
         [Display(Name = "Nombre")]
-        public string Nombre { get; set; }
+        public string NombreAlumno { get; set; }
         [Required]
         [Display(Name = "Apellido")]
-        public string Apellido { get; set; }
+        public string ApellidoAlumno { get; set; }
         [Required]
         [Display(Name = "Sexo")]
-        public string Sexo { get; set; }
+        public string SexoAlumno { get; set; }
         [Required]
         [Display(Name = "Edad")]
-        public int Edad { get; set; }
+        public int EdadAlumno { get; set; }
         [Required]
         [Display(Name = "Dni")]
-        public int Dni { get; set; }
+        public int DniAlumno { get; set; }
         [Required]
         [Display(Name = "Ciudad")]
-        public int CodCiudad { get; set; }
+        public int IdCiudad { get; set; }
         public string Ciudad { get; set; }
 
 
